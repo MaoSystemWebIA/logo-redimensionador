@@ -1,0 +1,54 @@
+from PIL import Image, ImageDraw, ImageFont
+
+width, height = 600, 600
+img = Image.new("RGB", (width, height), "white")
+draw = ImageDraw.Draw(img)
+
+blue = (36, 102, 252)
+black = (0, 0, 0)
+
+def draw_diamond(x, y, size, color):
+    half = size // 2
+    points = [(x, y - half), (x + half, y), (x, y + half), (x - half, y)]
+    draw.polygon(points, fill=color)
+
+center_x = width // 2
+start_y = 150
+draw_diamond(center_x, start_y, 30, blue)
+draw_diamond(center_x, start_y + 50, 45, blue)
+draw_diamond(center_x, start_y + 110, 60, blue)
+
+try:
+    font_big = ImageFont.truetype("arial.ttf", 48)
+    font_small = ImageFont.truetype("arial.ttf", 20)
+except IOError:
+    font_big = ImageFont.load_default()
+    font_small = ImageFont.load_default()
+
+text = "Mao System WebIA"
+pre_text = "Mao "
+blue_text = "System"
+post_text = " WebIA"
+text_y = start_y + 150
+
+def text_width(draw, text, font):
+    bbox = draw.textbbox((0, 0), text, font=font)
+    return bbox[2] - bbox[0]
+
+pre_w = text_width(draw, pre_text, font_big)
+blue_w = text_width(draw, blue_text, font_big)
+post_w = text_width(draw, post_text, font_big)
+total_width = pre_w + blue_w + post_w
+start_x = (width - total_width) // 2
+
+draw.text((start_x, text_y), pre_text, fill=black, font=font_big)
+draw.text((start_x + pre_w, text_y), blue_text, fill=blue, font=font_big)
+draw.text((start_x + pre_w + blue_w, text_y), post_text, fill=black, font=font_big)
+
+link = "Visítanos en nuestra web https://maosystemwebia.github.io/Landin/"
+link_y = text_y + 80
+link_w = text_width(draw, link, font_small)
+draw.text(((width - link_w) // 2, link_y), link, fill=blue, font=font_small)
+
+img.save("maosystemwebia.png")
+img.show()
