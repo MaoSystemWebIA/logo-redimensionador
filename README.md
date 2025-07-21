@@ -1,5 +1,5 @@
 # logo-redimensionador
-# Procesamiento de Imágenes con Python
+#Procesamiento de Imágenes con Python  
 Este proyecto contiene un script para redimensionar imágenes especialmente para redes sociales como Facebook y Whatsap.
 
 ---
